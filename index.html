@@ -1,0 +1,606 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090914">
+  <title>我的宇宙｜個人網站</title>
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #090914;
+      --panel: rgba(255, 255, 255, .055);
+      --line: rgba(255, 255, 255, .12);
+      --text: #f5f3ff;
+      --muted: #aaa7c4;
+      --purple: #a78bfa;
+      --cyan: #67e8f9;
+      --pink: #f0abfc;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: var(--bg);
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family: Inter, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(108, 72, 200, .22), transparent 38%),
+        radial-gradient(ellipse at 90% 80%, rgba(39, 170, 190, .12), transparent 35%),
+        var(--bg);
+    }
+
+    button, a {
+      font: inherit;
+    }
+
+    button:focus-visible, a:focus-visible {
+      outline: 2px solid var(--cyan);
+      outline-offset: 4px;
+    }
+
+    .stars {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      opacity: .42;
+      background-image:
+        radial-gradient(1px 1px at 10% 18%, white 99%, transparent),
+        radial-gradient(1px 1px at 73% 12%, white 99%, transparent),
+        radial-gradient(2px 2px at 88% 43%, #c4b5fd 99%, transparent),
+        radial-gradient(1px 1px at 35% 77%, white 99%, transparent),
+        radial-gradient(1px 1px at 62% 65%, #a5f3fc 99%, transparent),
+        radial-gradient(2px 2px at 20% 54%, #f0abfc 99%, transparent);
+      background-size: 340px 300px;
+    }
+
+    .shell {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .brand-mark {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .24);
+      border-radius: 13px;
+      background: linear-gradient(135deg, rgba(167, 139, 250, .4), rgba(103, 232, 249, .18));
+      box-shadow: 0 0 28px rgba(167, 139, 250, .22);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      padding: 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .035);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-button {
+      padding: 10px 16px;
+      border: 0;
+      border-radius: 999px;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .nav-button:hover {
+      color: white;
+      background: rgba(255, 255, 255, .08);
+    }
+
+    .nav-button.active {
+      color: #11101c;
+      background: linear-gradient(100deg, var(--purple), var(--cyan));
+      box-shadow: 0 0 24px rgba(103, 232, 249, .19);
+    }
+
+    main {
+      min-height: calc(100vh - 150px);
+      padding: 54px 0 72px;
+    }
+
+    .page {
+      display: none;
+      animation: appear .45s ease both;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--cyan);
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      width: 24px;
+      height: 1px;
+      content: "";
+      background: currentColor;
+    }
+
+    .hero {
+      display: grid;
+      min-height: 500px;
+      grid-template-columns: 1.15fr .85fr;
+      align-items: center;
+      gap: 44px;
+    }
+
+    h1 {
+      max-width: 720px;
+      margin: 22px 0;
+      font-size: clamp(3rem, 8vw, 6.7rem);
+      line-height: .98;
+      letter-spacing: -.075em;
+    }
+
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(100deg, #c4b5fd 8%, #67e8f9 52%, #f0abfc 95%);
+      background-clip: text;
+      -webkit-background-clip: text;
+    }
+
+    .intro {
+      max-width: 560px;
+      color: var(--muted);
+      font-size: clamp(1rem, 2vw, 1.16rem);
+      line-height: 1.9;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 13px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      padding: 0 20px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      color: var(--text);
+      text-decoration: none;
+      background: rgba(255, 255, 255, .055);
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease, background .2s ease;
+    }
+
+    .button:hover {
+      transform: translateY(-3px);
+      border-color: rgba(103, 232, 249, .5);
+      background: rgba(255, 255, 255, .1);
+    }
+
+    .button.primary {
+      border: 0;
+      color: #11101c;
+      font-weight: 800;
+      background: linear-gradient(100deg, var(--purple), var(--cyan));
+    }
+
+    .art {
+      position: relative;
+      display: grid;
+      min-height: 380px;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .orbit {
+      position: absolute;
+      width: min(330px, 75vw);
+      aspect-ratio: 1;
+      border: 1px solid rgba(196, 181, 253, .23);
+      border-radius: 50%;
+      transform: rotate(-25deg) scaleY(.55);
+      box-shadow: 0 0 35px rgba(167, 139, 250, .12);
+    }
+
+    .orbit.two {
+      width: min(390px, 88vw);
+      border-color: rgba(103, 232, 249, .18);
+      transform: rotate(35deg) scaleY(.55);
+    }
+
+    .planet {
+      position: relative;
+      display: grid;
+      width: 215px;
+      aspect-ratio: 1;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, .38);
+      border-radius: 50%;
+      font-size: 5rem;
+      background:
+        radial-gradient(circle at 30% 25%, rgba(255,255,255,.7), transparent 8%),
+        radial-gradient(circle at 35% 30%, #c4b5fd, #7655ce 40%, #30205d 72%);
+      box-shadow:
+        inset -22px -25px 45px rgba(8, 7, 25, .6),
+        0 0 80px rgba(167, 139, 250, .34);
+      animation: float 5s ease-in-out infinite;
+    }
+
+    .planet::after {
+      position: absolute;
+      inset: 25%;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 50%;
+      content: "";
+      transform: rotate(-35deg) scaleX(1.7);
+    }
+
+    @keyframes float {
+      50% { transform: translateY(-12px); }
+    }
+
+    .section-heading {
+      margin: 16px 0 12px;
+      font-size: clamp(2.4rem, 6vw, 4.5rem);
+      letter-spacing: -.06em;
+    }
+
+    .section-copy {
+      max-width: 680px;
+      margin: 0 0 34px;
+      color: var(--muted);
+      line-height: 1.9;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 17px;
+      margin-top: 30px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      min-height: 190px;
+      padding: 25px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: linear-gradient(145deg, rgba(255,255,255,.075), rgba(255,255,255,.025));
+      transition: transform .25s ease, border-color .25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(167, 139, 250, .52);
+    }
+
+    .card-icon {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      margin-bottom: 22px;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.13);
+      border-radius: 15px;
+      font-size: 1.35rem;
+      background: rgba(167, 139, 250, .12);
+    }
+
+    .card h3 {
+      margin: 0 0 9px;
+      font-size: 1.15rem;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .work-card {
+      display: flex;
+      min-height: 260px;
+      flex-direction: column;
+      justify-content: flex-end;
+      background:
+        radial-gradient(circle at 75% 22%, rgba(103,232,249,.4), transparent 22%),
+        linear-gradient(145deg, rgba(113,81,186,.48), rgba(22,28,51,.7));
+    }
+
+    .work-card:nth-child(2) {
+      background:
+        radial-gradient(circle at 75% 22%, rgba(240,171,252,.4), transparent 22%),
+        linear-gradient(145deg, rgba(121,56,112,.42), rgba(32,27,57,.8));
+    }
+
+    .work-card:nth-child(3) {
+      background:
+        radial-gradient(circle at 75% 22%, rgba(251,191,36,.35), transparent 22%),
+        linear-gradient(145deg, rgba(127,81,52,.42), rgba(32,27,57,.8));
+    }
+
+    .tag {
+      align-self: flex-start;
+      margin-bottom: 15px;
+      padding: 6px 10px;
+      border: 1px solid rgba(255,255,255,.2);
+      border-radius: 999px;
+      color: #e8e4ff;
+      font-size: .8rem;
+      background: rgba(0,0,0,.15);
+    }
+
+    .contact-panel {
+      max-width: 740px;
+      padding: clamp(24px, 6vw, 48px);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      background: linear-gradient(135deg, rgba(167,139,250,.12), rgba(103,232,249,.055));
+      box-shadow: 0 24px 80px rgba(0,0,0,.2);
+    }
+
+    footer {
+      padding: 22px 0 30px;
+      border-top: 1px solid rgba(255, 255, 255, .08);
+      color: var(--muted);
+      font-size: .9rem;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      .shell {
+        width: min(100% - 28px, 600px);
+      }
+
+      header {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      nav {
+        width: 100%;
+        justify-content: space-between;
+        border-radius: 18px;
+      }
+
+      .nav-button {
+        flex: 1;
+        padding: 10px 8px;
+        font-size: .9rem;
+      }
+
+      main {
+        padding-top: 38px;
+      }
+
+      .hero {
+        min-height: auto;
+        grid-template-columns: 1fr;
+        gap: 5px;
+      }
+
+      .art {
+        min-height: 300px;
+      }
+
+      .planet {
+        width: 175px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card {
+        min-height: 160px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="stars" aria-hidden="true"></div>
+
+  <div class="shell">
+    <header>
+      <a class="brand" href="#" aria-label="我的宇宙，回到首頁" data-go="home">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>我的宇宙</span>
+      </a>
+
+      <nav aria-label="網站分頁">
+        <button class="nav-button active" type="button" data-page="home" aria-current="page">首頁</button>
+        <button class="nav-button" type="button" data-page="about">關於我</button>
+        <button class="nav-button" type="button" data-page="works">作品集</button>
+        <button class="nav-button" type="button" data-page="contact">聯絡我</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page active" id="home" aria-labelledby="home-title">
+        <div class="hero">
+          <div>
+            <span class="eyebrow">WELCOME TO MY UNIVERSE</span>
+            <h1 id="home-title">把想像力<br>變成<span class="gradient-text">宇宙。</span></h1>
+            <p class="intro">
+              嗨，歡迎來到我的小小星球。這裡收藏著我的故事、喜歡的事物，
+              還有正在發芽的創意。
+            </p>
+            <div class="actions">
+              <button class="button primary" type="button" data-go="works">看看我的作品 <span aria-hidden="true">↗</span></button>
+              <button class="button" type="button" data-go="about">認識我 <span aria-hidden="true">→</span></button>
+            </div>
+          </div>
+
+          <div class="art" aria-hidden="true">
+            <div class="orbit"></div>
+            <div class="orbit two"></div>
+            <div class="planet">✦</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="about" aria-labelledby="about-title" hidden>
+        <span class="eyebrow">A LITTLE ABOUT ME</span>
+        <h2 class="section-heading" id="about-title">關於<span class="gradient-text">這顆星球</span></h2>
+        <p class="section-copy">
+          我是正在探索世界的創作者，喜歡把靈感變成看得見、摸得到的作品。
+          這個網站是我的數位基地，記錄學習、創作和生活裡的小小發現。
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">🎨</div>
+            <h3>喜歡創作</h3>
+            <p>用色彩、文字和設計，把腦袋裡的想法帶到現實。</p>
+          </article>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">🚀</div>
+            <h3>持續探索</h3>
+            <p>每一次嘗試都是新的旅程，保持好奇，也勇敢出發。</p>
+          </article>
+          <article class="card">
+            <div class="card-icon" aria-hidden="true">☕</div>
+            <h3>日常靈感</h3>
+            <p>音樂、咖啡、散步和觀察生活，都是靈感的來源。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="page" id="works" aria-labelledby="works-title" hidden>
+        <span class="eyebrow">SELECTED CREATIONS</span>
+        <h2 class="section-heading" id="works-title">我的<span class="gradient-text">作品集</span></h2>
+        <p class="section-copy">這裡可以放上你的作品、計畫、照片或任何想分享的成果。</p>
+
+        <div class="grid">
+          <article class="card work-card">
+            <span class="tag">設計 ✦ 01</span>
+            <h3>星際靈感計畫</h3>
+            <p>把靈感整理成一場視覺冒險。</p>
+          </article>
+          <article class="card work-card">
+            <span class="tag">創作 ✦ 02</span>
+            <h3>夢境收藏所</h3>
+            <p>收集生活裡那些不想忘記的瞬間。</p>
+          </article>
+          <article class="card work-card">
+            <span class="tag">網站 ✦ 03</span>
+            <h3>我的第一個網站</h3>
+            <p>從一行程式碼開始，打造自己的小宇宙。</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="page" id="contact" aria-labelledby="contact-title" hidden>
+        <div class="contact-panel">
+          <span class="eyebrow">LET'S CONNECT</span>
+          <h2 class="section-heading" id="contact-title">一起聊聊<span class="gradient-text">吧。</span></h2>
+          <p class="section-copy">
+            有合作想法、想交流，或只是想說聲嗨？歡迎寄信給我！
+            記得把下面的信箱換成你自己的。
+          </p>
+          <a class="button primary" href="mailto:hello@example.com">
+            寄一封信 <span aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer>© 2026 我的宇宙・用想像力製作 ✦</footer>
+  </div>
+
+  <script>
+    const pages = document.querySelectorAll(".page");
+    const navButtons = document.querySelectorAll(".nav-button");
+
+    function showPage(pageName) {
+      pages.forEach((page) => {
+        const isCurrent = page.id === pageName;
+        page.classList.toggle("active", isCurrent);
+        page.hidden = !isCurrent;
+      });
+
+      navButtons.forEach((button) => {
+        const isCurrent = button.dataset.page === pageName;
+        button.classList.toggle("active", isCurrent);
+
+        if (isCurrent) {
+          button.setAttribute("aria-current", "page");
+        } else {
+          button.removeAttribute("aria-current");
+        }
+      });
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    navButtons.forEach((button) => {
+      button.addEventListener("click", () => showPage(button.dataset.page));
+    });
+
+    document.querySelectorAll("[data-go]").forEach((button) => {
+      button.addEventListener("click", () => showPage(button.dataset.go));
+    });
+  </script>
+</body>
+</html>
